@@ -148,7 +148,7 @@ public class DecisionEngine {
                     DecisionEngineConstants.MINIMUM_LOAN_AGE +
                     " years old!");
         }
-        if (age > DecisionEngineConstants.MAXIMUM_LOAN_AGE) {
+        if (age + DecisionEngineConstants.MAXIMUM_LOAN_PERIOD / 12 > DecisionEngineConstants.MAXIMUM_LOAN_AGE) {
             throw new InvalidPersonalCodeException("Customer is over" +
                     DecisionEngineConstants.MAXIMUM_LOAN_AGE +
                     " years old!");

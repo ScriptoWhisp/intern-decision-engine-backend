@@ -54,7 +54,7 @@ class DecisionEngineTest {
     void givenTooOldCustomer_whenCalculateApprovedLoan_thenThrowsInvalidPersonalCodeException() {
         assertThrows(
                 InvalidPersonalCodeException.class,
-                () -> decisionEngine.calculateApprovedLoan("30901230240", 4000L, 12)
+                () -> decisionEngine.calculateApprovedLoan("36901230240", 4000L, 12)
         );
     }
 

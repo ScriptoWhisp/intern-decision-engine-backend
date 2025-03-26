@@ -44,7 +44,7 @@ Below is a summary of the **changes** made in the code and **why** these changes
    - If even the minimum amount (2000) cannot be approved at the requested period, the engine attempts to **increase** the period (up to 48 months) to see if that helps (As task does not specify, we try to find period for initial amount, as it seems more logic to the author).
 
 4. **Added a `neededPeriodFor(int loanAmount)` method**  
-   - Instead of incrementing the period blindly, we now compute the “needed period” using the formula \(\lceil \frac{\text{loanAmount}}{\text{creditModifier}} \rceil\).  
+   - Instead of incrementing the period blindly, we now compute the “needed period” using the formula ceil(loanAmount/creditModifier).  
    - This directly follows from the scoring condition `score >= 0.1` and is more efficient and transparent than a loop.
 
 5. **Updated `getCreditModifier` with the four specific scenarios**  

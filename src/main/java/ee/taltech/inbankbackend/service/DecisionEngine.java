@@ -28,18 +28,18 @@ public class DecisionEngine {
      *
      * @param personalCode ID code of the customer that made the request.
      * @param loanAmount Requested loan amount
-     * @param loanPeriod Requested loan period
+     * @param loanPeriodMonths Requested loan period
      * @return A Decision object containing the approved loan amount and period, and an error message (if any)
      * @throws InvalidPersonalCodeException If the provided personal ID code is invalid
      * @throws InvalidLoanAmountException If the requested loan amount is invalid
      * @throws InvalidLoanPeriodException If the requested loan period is invalid
      * @throws NoValidLoanException If there is no valid loan found for the given ID code, loan amount and loan period
      */
-    public Decision calculateApprovedLoan(String personalCode, Long loanAmount, int loanPeriod)
+    public Decision calculateApprovedLoan(String personalCode, Long loanAmount, int loanPeriodMonths)
             throws InvalidPersonalCodeException, InvalidLoanAmountException, InvalidLoanPeriodException,
             NoValidLoanException {
         try {
-            verifyInputs(personalCode, loanAmount, loanPeriod);
+            verifyInputs(personalCode, loanAmount, loanPeriodMonths);
         } catch (Exception e) {
             return new Decision(null, null, e.getMessage());
         }
@@ -51,17 +51,17 @@ public class DecisionEngine {
             throw new NoValidLoanException("No valid loan found!");
         }
 
-        while (highestValidLoanAmount(loanPeriod) < DecisionEngineConstants.MINIMUM_LOAN_AMOUNT) {
-            loanPeriod++;
+        while (highestValidLoanAmount(loanPeriodMonths) < DecisionEngineConstants.MINIMUM_LOAN_AMOUNT) {
+            loanPeriodMonths++;
         }
 
-        if (loanPeriod <= DecisionEngineConstants.MAXIMUM_LOAN_PERIOD) {
-            outputLoanAmount = Math.min(DecisionEngineConstants.MAXIMUM_LOAN_AMOUNT, highestValidLoanAmount(loanPeriod));
+        if (loanPeriodMonths <= DecisionEngineConstants.MAXIMUM_LOAN_PERIOD) {
+            outputLoanAmount = Math.min(DecisionEngineConstants.MAXIMUM_LOAN_AMOUNT, highestValidLoanAmount(loanPeriodMonths));
         } else {
             throw new NoValidLoanException("No valid loan found!");
         }
 
-        return new Decision(outputLoanAmount, loanPeriod, null);
+        return new Decision(outputLoanAmount, loanPeriodMonths, null);
     }
 
     /**

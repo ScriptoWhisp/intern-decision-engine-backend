@@ -1,5 +1,6 @@
 package ee.taltech.inbankbackend.endpoint;
 
+import ee.taltech.inbankbackend.config.DecisionType;
 import ee.taltech.inbankbackend.exceptions.InvalidLoanAmountException;
 import ee.taltech.inbankbackend.exceptions.InvalidLoanPeriodException;
 import ee.taltech.inbankbackend.exceptions.InvalidPersonalCodeException;
@@ -49,24 +50,19 @@ public class DecisionEngineController {
                     calculateApprovedLoan(request.getPersonalCode(), request.getLoanAmount(), request.getLoanPeriod());
             response.setLoanAmount(decision.getLoanAmount());
             response.setLoanPeriod(decision.getLoanPeriod());
-            response.setErrorMessage(decision.getErrorMessage());
+            response.setDecision(decision.getDecision());
 
             return ResponseEntity.ok(response);
         } catch (InvalidPersonalCodeException | InvalidLoanAmountException | InvalidLoanPeriodException e) {
-            response.setLoanAmount(null);
-            response.setLoanPeriod(null);
             response.setErrorMessage(e.getMessage());
 
             return ResponseEntity.badRequest().body(response);
         } catch (NoValidLoanException e) {
-            response.setLoanAmount(null);
-            response.setLoanPeriod(null);
+            response.setDecision(DecisionType.DECLINED);
             response.setErrorMessage(e.getMessage());
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         } catch (Exception e) {
-            response.setLoanAmount(null);
-            response.setLoanPeriod(null);
             response.setErrorMessage("An unexpected error occurred");
 
             return ResponseEntity.internalServerError().body(response);

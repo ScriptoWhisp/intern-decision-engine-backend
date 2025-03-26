@@ -1,5 +1,6 @@
 package ee.taltech.inbankbackend.service;
 
+import ee.taltech.inbankbackend.config.DecisionType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,5 +12,5 @@ import lombok.Getter;
 public class Decision {
     private final Integer loanAmount;
     private final Integer loanPeriod;
-    private final String errorMessage;
+    private final DecisionType decision;
 }

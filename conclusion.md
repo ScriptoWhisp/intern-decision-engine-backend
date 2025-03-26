@@ -27,7 +27,7 @@ Below is a summary of the **changes** made in the code and **why** these changes
 
 ## Detailed Changes and Justifications
 
-1. **Fixed loan amount and period validation**  
+1. **Fixed loan amount and period validation** (including FRONTEND)  
    - Previously, some checks used confusing negations (`!(x <= ...)`).  
    - Now the `verifyInputs` method clearly confirms that:
      - The amount is between `2000` and `10000` inclusive.
@@ -59,6 +59,7 @@ Below is a summary of the **changes** made in the code and **why** these changes
    - Overall, these changes make the code more understandable and maintainable.
 
 ---
+
 ## Fixed and Extended Tests
 
 - **Fixed existing tests** that previously expected incorrect boundary checks or periods up to 60 months. Now, all tests respect the [12..48] range for the loan period and [2000..10000] for the loan amount.
@@ -90,11 +91,16 @@ Now, the logic ensures:
 - If the loan cannot be approved at the requested period, the engine tries **extending** the period (for the initial amount) up to 48.  
 - It rejects the request if no valid combination exists.
 
-This fully meets the specification of TICKET-101.
+Formulas used for this logic (after initial formula evaluation) is:
+- credit modifier * period = loan amount **To compute maximum amount possible**
+- period = loan amount / credit modifier **To compute minimum period for amount**
 
 ---
 
-## Conclusion
+## Further SOLID refactoring
+Move validation logic to a dedicated `LoanValidator` class, and keep the scoring logic in a `ScoreCalculator`. The `DecisionEngine` would then handle only the orchestration.
+
+## Conclusion TL;DR (ChatGPT generated)
 
 - The code now meets all TICKET-101 requirements:
   - Checking personal codes for debt/segment.  
@@ -104,4 +110,7 @@ This fully meets the specification of TICKET-101.
 - The updates enhance **readability** and **reliability** of the solution, making it easier to maintain in the future.  
 - The primary improvement is the **correct implementation** of finding an “optimal” combination of loan amount and period in compliance with the specification.
 
-For a more detailed overview of the changes, please refer to the commit history https://github.com/ScriptoWhisp/intern-decision-engine-backend/pull/1/commits
+For a more detailed overview of the changes, please refer to the commit history
+https://github.com/jeringeorge98/intern-decision-engine-backend/compare/main...ScriptoWhisp:intern-decision-engine-backend:main
+
+https://github.com/deskrock/intern-decision-engine-frontend/compare/main...ScriptoWhisp:intern-decision-engine-frontend:main

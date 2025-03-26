@@ -103,3 +103,5 @@ This fully meets the specification of TICKET-101.
   - Rejecting if no valid solution exists.  
 - The updates enhance **readability** and **reliability** of the solution, making it easier to maintain in the future.  
 - The primary improvement is the **correct implementation** of finding an “optimal” combination of loan amount and period in compliance with the specification.
+
+For a more detailed overview of the changes, please refer to the commit history https://github.com/ScriptoWhisp/intern-decision-engine-backend/pull/1/commits
